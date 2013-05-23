@@ -20,4 +20,4 @@ Main Features
 
 User Guide
 -------------
-"CBehave User Guide" is here. And the Chinese edition is here.
+For more information, please open and read the project wiki. cbehave user guide is ready for you.
