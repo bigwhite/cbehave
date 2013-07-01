@@ -90,6 +90,10 @@ _feature_over: \
     should_str_equal((actual), (expected), &_scenario_state, __FILE__, __LINE__); \
 } while(0)
 
+#define SHOULD_MEM_EQUAL(actual, expected, size) do { \
+    should_mem_equal((actual), (expected), (size), &_scenario_state, __FILE__, __LINE__); \
+} while(0)
+
 #define SHOULD_BE_TRUE(actual) do { \
     should_be_true((actual), &_scenario_state, __FILE__, __LINE__); \
 } while(0)
@@ -106,6 +110,8 @@ void should_int_equal(int actual, int expected,
                       void *state,
                       const char *file, int line);
 void should_str_equal(const char *actual, const char *expected, void *state,
+                      const char *file, int line);
+void should_mem_equal(const void *actual, const void *expected, size_t size, void *state, 
                       const char *file, int line);
 void should_be_true(int actual, void *state, const char *file, int line);
 

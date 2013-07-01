@@ -62,6 +62,25 @@ void should_str_equal(const char *actual, const char *expected, void *state,
             actual ? actual : "NULL");
 }
 
+void should_mem_equal(const void *actual, const void *expected, size_t size, void *state,
+                      const char *file, int line) {
+
+    int *_scenario_state = (int*)state;
+    /* 
+     * both pointers are NULL or pointing to the same memory 
+     */
+    if (expected == actual) return;
+    
+    if (expected && actual) {
+        if (!memcmp(expected, actual, size)) {
+            return;
+        }
+    }
+
+    (*_scenario_state) = 1;
+    printf("\t\t\t\033[31m%s:%d: Failed: memory does not equal.\033[0m\n", file, line);
+}
+
 void should_be_true(int actual, void *state, const char *file, int line) {
     int *_scenario_state = (int*)state;
     if (!actual) { 
