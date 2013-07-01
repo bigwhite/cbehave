@@ -249,7 +249,7 @@ void cbehave_mock_obj_return(const char *symbol_name,
         APR_RING_INSERT_TAIL(&_symbol_list, s, cbehave_symbol_t, link);
     }
 
-    return add_value(s, value, count);
+    add_value(s, value, count);
 }
 
 static cbehave_symbol_t* lookup_symbol(const char *symbol_name, int obj_type) {
@@ -269,6 +269,7 @@ static cbehave_symbol_t* lookup_symbol(const char *symbol_name, int obj_type) {
 
 static void add_value(cbehave_symbol_t *s, void *value, int count) {
     cbehave_value_t    *v  = NULL;
+    int i;
 
     /* 
      * make the obj always to return one same value
@@ -282,7 +283,7 @@ static void add_value(cbehave_symbol_t *s, void *value, int count) {
 
     s->always_return_flag = 0;
 
-    for (int i = 0; i < count; i++) {
+    for (i = 0; i < count; i++) {
         errno = 0;
         v = (cbehave_value_t*)malloc(sizeof(*v));
         if (!v) {
