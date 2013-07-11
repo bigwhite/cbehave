@@ -62,6 +62,25 @@ void should_str_equal(const char *actual, const char *expected, void *state,
             actual ? actual : "NULL");
 }
 
+void should_mem_equal(const void *actual, const void *expected, size_t size, void *state,
+                      const char *file, int line) {
+
+    int *_scenario_state = (int*)state;
+    /* 
+     * both pointers are NULL or pointing to the same memory 
+     */
+    if (expected == actual) return;
+    
+    if (expected && actual) {
+        if (!memcmp(expected, actual, size)) {
+            return;
+        }
+    }
+
+    (*_scenario_state) = 1;
+    printf("\t\t\t\033[31m%s:%d: Failed: memory does not equal.\033[0m\n", file, line);
+}
+
 void should_be_true(int actual, void *state, const char *file, int line) {
     int *_scenario_state = (int*)state;
     if (!actual) { 
@@ -249,7 +268,7 @@ void cbehave_mock_obj_return(const char *symbol_name,
         APR_RING_INSERT_TAIL(&_symbol_list, s, cbehave_symbol_t, link);
     }
 
-    return add_value(s, value, count);
+    add_value(s, value, count);
 }
 
 static cbehave_symbol_t* lookup_symbol(const char *symbol_name, int obj_type) {
@@ -269,6 +288,7 @@ static cbehave_symbol_t* lookup_symbol(const char *symbol_name, int obj_type) {
 
 static void add_value(cbehave_symbol_t *s, void *value, int count) {
     cbehave_value_t    *v  = NULL;
+    int i;
 
     /* 
      * make the obj always to return one same value
@@ -282,7 +302,7 @@ static void add_value(cbehave_symbol_t *s, void *value, int count) {
 
     s->always_return_flag = 0;
 
-    for (int i = 0; i < count; i++) {
+    for (i = 0; i < count; i++) {
         errno = 0;
         v = (cbehave_value_t*)malloc(sizeof(*v));
         if (!v) {
