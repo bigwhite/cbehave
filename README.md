@@ -89,6 +89,20 @@ The result of the example could be seen like：
      total scenarios: [2]
      failed scenarios: [0]
 
+Build
+------
+ - Download the source code package
+ - unzip the package
+ - configure->make->make install
+ 
+if you want to compile in 64-bit mode, pass "CPPFLAGS=-m64 LDFLAGS=-m64" to configure.
+sometimes, you may encounter such error:
+
+     mv: cannot stat `.deps/cbehave.Tpo': No such file or directory
+     make[1]: *** [cbehave.lo] Error 1
+	
+a solution for this is execute "libtoolize -f" before "configure".
+
 
 User Guide
 -------------
